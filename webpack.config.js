@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+//var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 var APP_DIR = path.resolve(__dirname, 'app');
 var BUILD_DIR = path.resolve(__dirname, 'dist');
@@ -18,7 +18,7 @@ var config = {
       {
         test : /\.js?/,
         include : APP_DIR,
-        loader : 'babel',
+        loader : 'babel-loader',
         query:{
           presets:['es2015']
         }
@@ -32,11 +32,11 @@ var config = {
     {
       from: APP_DIR + '/index.html'
     }]),
-    new OptimizeCssAssetsPlugin({
+    /*new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.css$/g,
       cssProcessorOptions: { discardComments: {removeAll: true } },
       canPrint: true
-    })
+    })*/
   ],
   devServer: {
     contentBase: APP_DIR,

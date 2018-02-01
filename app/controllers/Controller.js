@@ -30,6 +30,9 @@ export default class Controller{
 	handleInputKey(key){
 		this._model.handleInputKey(key);
 	}
+	resizeBoard(rows, cols){
+		this._model.resizeBoard(rows, cols);
+	}
 	_finishGame(){
 		this._enableActions(true, false, false);	
 	}

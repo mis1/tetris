@@ -77,7 +77,8 @@ export default class Shape{
 		for(let i=0; i<side.length; i++){
 			const index = side[i];
 			const cell = cells[index];
-			sideCells.push([cell[0]+x+pos.x, cell[1]+y+pos.y]);
+			if (cell[0]+x+pos.x>-1)
+				sideCells.push([cell[0]+x+pos.x, cell[1]+y+pos.y]);
 		}
 		return sideCells;
 	}

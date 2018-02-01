@@ -19,6 +19,7 @@ export default class Board{
 			this._data[i]=new Array(cols);
 		}
 		this.reset();
+		this._entryCell=[-1, Math.floor(cols/2)-1];
 	}
 	reset(startRow=0, endRow=this._rows){
 		for(let i=startRow; i<endRow; i++){

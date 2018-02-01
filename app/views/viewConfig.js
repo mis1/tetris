@@ -2,8 +2,13 @@ const colors = ['#5F9EA0', '#FF69B4', '#0f0', '#0ff', '#f0f', '#7FFF00', '#20B2A
 
 const clearColor = '#f3f3f3';
 
-const cellSize = 20;
+const cellSize = 33;
 
-const boardBorderWidth = 1;
+const maxBoardBorderWidth = 10;
 
-export {colors, clearColor, cellSize, boardBorderWidth};
+const maxBoardWidth = 480;
+
+const maxBoardHeight = 640;
+
+export {colors, clearColor, cellSize, maxBoardBorderWidth, maxBoardWidth, maxBoardHeight};
+
