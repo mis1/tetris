@@ -18,7 +18,7 @@ describe('View', () => {
 	});
 	it('should be initialized', () => {
 		expect(ScoreView.mock.calls).toEqual([[]]);
-		expect(BoardView.mock.calls).toEqual([[]]);
+		expect(BoardView.mock.calls).toEqual([[controller]]);
 		expect(ActionListView.mock.calls).toEqual([[controller]]);
 		
 		expect(model.subscribe4Board).toBeCalledWith(expect.any(Function));

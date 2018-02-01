@@ -82,9 +82,9 @@ describe('Shape', () => {
 		const areCellsEmptyCBArgs=[];
 		for(let k=0; k<=i; k++){
 			const sideCells=[];
-			getSide(direction, shapeDef).forEach(index=>sideCells.push(
-				calcNextCell(k+1, shapeDef.cells[index], direction, pos)
-			));
+			getSide(direction, shapeDef).forEach(index=> getNewPos(k+1, direction).x>-1? sideCells.push(
+                calcNextCell(k+1, shapeDef.cells[index], direction, pos)
+            ):'');
 			areCellsEmptyCBArgs.push([sideCells]); //[a[b[c[d]]]]=>d is one cell, c is [] of cells, b is arg for one call, a is list of calls
 			if (twice){
 				const newPos = getNewPos(k+1, direction);

@@ -8,7 +8,7 @@ import Controller from '../controllers/Controller';
 export default class View{
 	constructor(controller, model){
 		this._actionListView = new ActionListView(controller);
-		this._boardView = new BoardView();
+		this._boardView = new BoardView(controller);
 		this._scoreView = new ScoreView();
 		model.subscribe4Board((board) => this._boardView.render(board));
 		model.subscribe4Score((score) => this._scoreView.render(score));

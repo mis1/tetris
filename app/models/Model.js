@@ -75,6 +75,9 @@ export default class Model{
 		const direction = inputkey2Direction[inputKey];
 		return this._run(direction);
 	}
+	resizeBoard(rows, cols){
+		this._board.resize(rows,cols);
+	}
 	_finish(){
 		if (GameStatus.STARTED !== this._status) return false;
 		this._timer.stop();

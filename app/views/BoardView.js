@@ -1,27 +1,28 @@
 import $ from '../libs/jquery';
 import {clearSymbol} from '../common/constants';
-import {colors, clearColor, cellSize, boardBorderWidth} from './viewConfig';
+import {colors, clearColor, cellSize, maxBoardBorderWidth, maxBoardWidth, maxBoardHeight} from './viewConfig';
 
 export default class BoardView{
-	constructor(){
-		this.$elem=$('#board');
+	constructor(controller){
+		//this.$elem=$('#board');
 		this._symbol2Color = {};
 		this.reset();
+		
+		const $canvas = $("#canvas");
+		this._ctx = $canvas[0].getContext("2d");
+		this._calculateSize();
+		this._setSize($canvas);
+		controller.resizeBoard(this._rows, this._cols);
 	}
-	render(board){
-		var myCanvas = document.getElementById("myCanvas");
-        var ctx = myCanvas.getContext("2d");
+	render(board){        
 		//let str='';
-		const rows = board.length;
-		const cols = board[0].length;
-		const width = cols * cellSize + 2 * boardBorderWidth;
-		const height = rows * cellSize;
+		const ctx = this._ctx;
+		const width = this._width;
+		const height = this._height;
 		const size = cellSize;
-			
+
 		ctx.fillStyle=clearColor;
 		ctx.fillRect(0, 0, width, height);
-		ctx.strokeStyle="#000";
-		ctx.strokeRect(0, 0, width, height);
 
 		for(var i=0; i<board.length; i++){
 			for(var j=0; j<board[0].length; j++){
@@ -29,9 +30,9 @@ export default class BoardView{
 					//str += board[i][j];
 					
 					ctx.fillStyle=this._getColor(board[i][j]);
-					ctx.fillRect(j*size + boardBorderWidth, i*size, size, size);
+					ctx.fillRect(j*size, i*size, size, size);
 					ctx.strokeStyle="#000";
-					ctx.strokeRect(j*size + boardBorderWidth, i*size, size, size);
+					ctx.strokeRect(j*size , i*size, size, size);
                 	
 				}
 				else{
@@ -50,5 +51,33 @@ export default class BoardView{
 			return this._symbol2Color[symbol];
 		this._colorIndex = (this._colorIndex + 1) % colors.length;
 		return this._symbol2Color[symbol] = colors[this._colorIndex];
+	}
+	_calculateSize(){
+		const windowWidth = window.innerWidth;
+		const windowHeight = window.innerHeight;
+
+		const width = windowWidth < maxBoardWidth? windowWidth: maxBoardWidth;
+		const height = (windowHeight < maxBoardHeight? windowHeight: maxBoardHeight) - $('header')[0].offsetHeight;
+
+		this._cols = Math.floor(width/cellSize);
+		this._rows = Math.floor(height/cellSize);
+
+		this._width = this._cols * cellSize;
+		this._height = this._rows * cellSize;
+
+		const xBorderWidth = width - this._width;
+		const yBorderWidth = height - this._height;
+		this._xBorderWidth = xBorderWidth < maxBoardBorderWidth ? xBorderWidth : maxBoardBorderWidth;
+		this._yBorderWidth = yBorderWidth < maxBoardBorderWidth ? yBorderWidth : maxBoardBorderWidth;
+	}
+	_setSize($canvas){
+		$canvas.attr('width', this._width);
+		$canvas.attr('height', this._height);
+		const $board = $('#board');
+		$board[0].style.width = this._width + 'px';
+		$board[0].style.height = this._height + 'px';
+		$board[0].style.borderWidth = `${Math.floor(this._yBorderWidth/2)}px ${Math.floor(this._xBorderWidth/2)}px`;  
+		const $header = $('header');
+		$header[0].style.width = this._width + this._xBorderWidth + 'px';
 	}
 };
