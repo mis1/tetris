@@ -1,7 +1,23 @@
+/**
+ * Exports Shape class.
+ *
+ * @module Shape
+ */
+
 import {Direction, MoveResult} from '../common/constants.js';
 import Board from './Board';
 
-export default class Shape{
+class Shape{
+	/**
+	 * Creates a shape. Shape is one orientation of metashape. One metashape has at least one shape.
+	 * @param  {String} id - uniquie identification of the shape.
+	 * @param  {Array} symbols - each shape shares the symbols of its metashape.
+	 * @param {object} config - shape's definition. It is defined as an element of metashape's shape collection.
+	 * @param {object} board - instance of [Board]{@link module:Board~Board} class. Shape wrapped in metashape moves on board. 
+	 * 
+	 * id param format is "METASHAPEID_INDEX" where METASHAPEID is the key of metashape in [metaShapeDefs]{@link module:metaShapeDefs~metaShapeDefs} object and INDEX is the shape's ordinal position in Metashape's shapes collection.
+	 * Shape's position is set to [board's entryCell]{@link module:Board~entryCell}
+	 */
 	constructor(id, symbols, config, board){
 		this._id = id;
 		this._config = config;
@@ -17,6 +33,12 @@ export default class Shape{
 		for(let i=0; i<this._config.cells.length; i++)
 			this._cellIndexes.push(i);
 	}
+
+	/**
+	 * Moves the shape on board. 
+	 * @param  {module:constants~Direction} direction - in which direction to move shape.
+	 * @return {module:constants~MoveResult} - whether shape moved, didn't move, freezed.
+	 */
 	move(direction){
 		if (this._canMove(direction)){
 			const cells = this._calcNextCells(direction);
@@ -29,15 +51,38 @@ export default class Shape{
 		}
 		return MoveResult.NO;
 	}
+
+	/**
+	 * Gets the shape's current position on board. Position of shape change after every move.
+	 * @return {Object}
+	 */
 	get position(){
 		return Object.assign({},this._pos);
 	}
+
+	/**
+	 * Sets the postion of the shape.
+	 * @param  {[type]} pos [description]
+	 * @return {[type]}     [description]
+	 */
 	set position(pos){
 		Object.assign(this._pos, pos);	
 	}
+
+	/**
+	 * Gets the id of the shape.
+	 * @return {String}
+	 *
+	 */
 	get id(){
 		return this._id;
 	}
+
+	/**
+	 * Checks whether shape can move in the input direction
+	 * @param  {[type]} direction [description]
+	 * @return {Boolean}           [description]
+	 */
 	_canMove(direction){
 		const cells = this._calcNextSideCells(direction);
 		return this._board.areCellsEmpty(cells);
@@ -103,3 +148,5 @@ export default class Shape{
 		return nextCells;
 	}
 }
+
+export default Shape;

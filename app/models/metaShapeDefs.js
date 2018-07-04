@@ -1,10 +1,44 @@
+/** 
+ * Exports metashapes. 
+ * Metashape definition is used to render, rotate and color shapes.
+ * Metashape name format is 'NameRxC' where RXC tells the size of metaspahe. R, C are the placeholders for the number of rows and cols (of the board) the metashpae spans. 
+ * Each metashape define one shape. 
+ * Each shape defines its rotations and symbols.
+
+ * @module metaShapeDefs
+ */
+
 import {deepFreeze} from '../common/utility';
 
+/**
+ * Defines symbols.
+ * Each symbol is mapped to a color value. 
+ * View layer defines [colors]{@link module:viewConfig~colors} and decides which symbol to map to which color. 
+ * Currently, setting 26 symbols. From 'a' to 'z'.
+ * @type {Array}
+ *
+ * @see module:viewConfig~colors 
+ */
 const symbols = []; //a-z
 for(let i=97; i<=122; i++){ 
 	symbols.push(String.fromCharCode(i));
 }
 
+/**
+ * Defines metashapes. 
+ * Each metashape represents one shape and defines symbols, rotations for its shape.
+ * Each rotoation defines what cells it is made of, its left, right and bottom sides.
+ * Each cell is defined with reference to metashape's origin (normally, [0,0]).
+ * Each side is defined by the indexes of the cells array.
+ *
+ * Some of the currently defined metashapes are:
+ * - ms1x2  - spans 1 row and 2 cols. rotates 180 degree
+ * - ms2x2  - spans 2 rows and 2 cols. doesn't rotate
+ * - msL2x2 - spans 2 rows and 2 cols. looks like english alphabet L. rotates 90 degree
+ * - msT3x3 - spans 3 rows and 3 cols. looks like english alphabet T. rotates 90 degree
+ *    
+ * @type {Object}
+ */
 const metaShapeDefs={
 	ms1x2:{
 		symbols:[symbols[0],symbols[1]],
